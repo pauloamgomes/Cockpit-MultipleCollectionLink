@@ -10,6 +10,29 @@
             content: "";
         }
 
+        .uk-flex-item-1:hover {
+            cursor: move;
+        }
+
+        .uk-item-link {
+            margin-right: 4px;
+        }
+
+        .uk-sortable li {
+            line-height: 10px;
+            height: auto;
+            margin: 0px;
+            padding: 6px 4px;
+        }
+
+        .uk-sortable li:hover {
+            background-color: #f5f5f5;
+        }
+
+        .uk-sortable li > div {
+            line-height: 10px;
+        }
+
     </style>
 
     <div class="uk-alert" if="{!opts.links}">
@@ -27,11 +50,11 @@
     <div if="{opts.links && collections}">
 
         <div class="uk-alert" if="{!link || (link && !link.length)}">
-            { App.i18n.get('Nothing linked yet') }. { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
+            { App.i18n.get('Nothing linked yet') }. { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
         </div>
 
         <div class="uk-alert" if="{!link || (link && link.length)}">
-            { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
+            { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
         </div>
 
         <div if="{link && link.length}">
@@ -41,14 +64,17 @@
                 <ul class="uk-list uk-list-space uk-sortable" data-uk-sortable>
                     <li each="{l,index in link}" data-idx="{ index }">
                         <div class="uk-grid uk-grid-small uk-text-small">
-                            <div><a onclick="{ removeListItem }"><i class="uk-icon-trash-o"></i></a></div>
+                            <div>
+                                <a class="uk-text-danger uk-item-link" onclick="{ removeListItem }" title="{ App.i18n.get('Remove Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i></a>
+                                <a class="uk-item-link" target="_blank" href="/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-edit"></i></a>
+                            </div>
                             <div class="uk-flex-item-1">{ l.display } ({ l.link })</div>
                         </div>
                     </li>
                 </ul>
 
                 <div class="uk-panel-box-footer uk-text-small uk-padding-bottom-remove">
-                    <a class="uk-text-danger" onclick="{ removeItem }"><i class="uk-icon-trash-o"></i> { App.i18n.get('Reset') }</a>
+                    <a class="uk-text-danger" onclick="{ removeItem }" title="{ App.i18n.get('Remove all collections') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i> { App.i18n.get('Reset') }</a>
                 </div>
             </div>
 
