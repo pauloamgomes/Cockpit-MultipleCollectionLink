@@ -50,11 +50,11 @@
     <div if="{opts.links && collections}">
 
         <div class="uk-alert" if="{!link || (link && !link.length)}">
-            { App.i18n.get('Nothing linked yet') }. { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
+            { App.i18n.get('Nothing linked yet') }. { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || collection.name }</a>
         </div>
 
         <div class="uk-alert" if="{!link || (link && link.length)}">
-            { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
+            { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || collection.name }</a>
         </div>
 
         <div if="{link && link.length}">
@@ -86,7 +86,7 @@
 
         <div class="uk-modal-dialog uk-modal-dialog-large" if="{collection}">
             <a href="" class="uk-modal-close uk-close"></a>
-            <h3>{ collection.label || opts.links }</h3>
+            <h3>{ collection.label || collection.name }</h3>
 
             <div class="uk-margin">
 
