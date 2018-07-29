@@ -66,7 +66,7 @@
                         <div class="uk-grid uk-grid-small uk-text-small">
                             <div>
                                 <a class="uk-text-danger uk-item-link" onclick="{ removeListItem }" title="{ App.i18n.get('Remove Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i></a>
-                                <a class="uk-item-link" target="_blank" href="../../../collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-edit"></i></a>
+                                <a class="uk-item-link" target="_blank" href="{ App.base_url }/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-edit"></i></a>
                             </div>
                             <div class="uk-flex-item-1">{ l.display } ({ l.link })</div>
                         </div>
