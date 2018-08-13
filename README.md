@@ -49,7 +49,7 @@ In the below example and assuming that you have two collections, named carousel 
 }
 ```
 
-![Example Usage](https://monosnap.com/file/HwyRbyxwEBJeuyTyoyAiBuRDCMz7Ex.png)
+![Example Usage](https://api.monosnap.com/rpc/file/download?id=HwyRbyxwEBJeuyTyoyAiBuRDCMz7Ex)
 
 
 The name of the link is the collection name and the display is the field name of the collection to be displayed when listing/viewing collections.
