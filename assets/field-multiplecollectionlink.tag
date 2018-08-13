@@ -50,11 +50,11 @@
     <div if="{opts.links && collections}">
 
         <div class="uk-alert" if="{!link || (link && !link.length)}">
-            { App.i18n.get('Nothing linked yet') }. { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
+            { App.i18n.get('Nothing linked yet') }. { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || collection.name }</a>
         </div>
 
         <div class="uk-alert" if="{!link || (link && link.length)}">
-            { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || opts.links }</a>
+            { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || collection.name }</a>
         </div>
 
         <div if="{link && link.length}">
@@ -66,7 +66,7 @@
                         <div class="uk-grid uk-grid-small uk-text-small">
                             <div>
                                 <a class="uk-text-danger uk-item-link" onclick="{ removeListItem }" title="{ App.i18n.get('Remove Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i></a>
-                                <a class="uk-item-link" target="_blank" href="/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-edit"></i></a>
+                                <a class="uk-item-link" target="_blank" href="{ App.base_url }/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-edit"></i></a>
                             </div>
                             <div class="uk-flex-item-1">{ l.display } ({ l.link })</div>
                         </div>
@@ -86,7 +86,7 @@
 
         <div class="uk-modal-dialog uk-modal-dialog-large" if="{collection}">
             <a href="" class="uk-modal-close uk-close"></a>
-            <h3>{ collection.label || opts.links }</h3>
+            <h3>{ collection.label || collection.name }</h3>
 
             <div class="uk-margin">
 
