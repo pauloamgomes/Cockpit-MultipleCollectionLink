@@ -53,7 +53,7 @@
             { App.i18n.get('Nothing linked yet') }. { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || collection.name }</a>
         </div>
 
-        <div class="uk-alert" if="{!link || (link && link.length)}">
+        <div class="uk-alert" if="{link && link.length}">
             { App.i18n.get('Create link to') }: <a class="field-multiplecollectionlink" each="{collection, index in collections}" title="{ App.i18n.get('Add collection') }" data-uk-tooltip="pos:'bottom'" onclick="{ () => showDialog(index) }">{ collection.label || collection.name }</a>
         </div>
 
