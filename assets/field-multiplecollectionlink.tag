@@ -254,7 +254,12 @@
             this.link = [];
         }
 
-        this.link.push(entry);
+        if (opts.limit && opts.limit == 1) {
+            this.link = entry;
+        } else {
+            this.link.push(entry);
+        }
+
 
         setTimeout(function(){
             modal.hide();
