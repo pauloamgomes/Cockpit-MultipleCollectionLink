@@ -10,7 +10,7 @@
             content: "";
         }
 
-        .uk-flex-item-1:hover {
+        .uk-flex-item-sortable:hover {
             cursor: move;
         }
 
@@ -43,8 +43,8 @@
         { App.i18n.get('Failed loading collections') } {opts.links}
     </div>
 
-    <div class="uk-alert" if="{opts.links && !collections && !error}">
-        <i class="uk-icon-spinner uk-icon-spin"></i> { App.i18n.get('Loading field') }
+    <div class="uk-margin" if="{opts.links && !collections && !error}">
+        <cp-preloader class="uk-container-center"></cp-preloader>
     </div>
 
     <div if="{opts.links && collections}">
@@ -61,20 +61,20 @@
 
             <div class="uk-panel uk-panel-card uk-panel-box">
 
-                <ul class="uk-list uk-list-space uk-sortable" data-uk-sortable>
+                <ul class="uk-list uk-list-space {link.length > 1 && 'uk-sortable'}" {link.length > 1 && 'data-uk-sortable'}>
                     <li each="{l,index in link}" data-idx="{ index }">
                         <div class="uk-grid uk-grid-small uk-text-small">
+                            <div class="uk-flex-item-1 {link.length > 1 && 'uk-flex-item-sortable'}">{ l.display } ({ l.link })</div>
                             <div>
-                                <a class="uk-text-danger uk-item-link" onclick="{ removeListItem }" title="{ App.i18n.get('Remove Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i></a>
-                                <a class="uk-item-link" target="_blank" href="{ App.base_url }/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit Collection') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-edit"></i></a>
+                                <a target="_blank" href="{ App.base_url }/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit entry') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-link"></i></a>
+                                <a class="uk-margin-small-left uk-text-danger uk-item-link" title="{ App.i18n.get('Remove entry') }" data-uk-tooltip="pos:'bottom'" onclick="{ removeListItem }"><i class="uk-icon-trash-o"></i></a>
                             </div>
-                            <div class="uk-flex-item-1">{ l.display } ({ l.link })</div>
                         </div>
                     </li>
                 </ul>
 
                 <div class="uk-panel-box-footer uk-text-small uk-padding-bottom-remove">
-                    <a class="uk-text-danger" onclick="{ removeItem }" title="{ App.i18n.get('Remove all collections') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i> { App.i18n.get('Reset') }</a>
+                    <a class="uk-text-danger" onclick="{ removeItem }" title="{ App.i18n.get('Remove all entries') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i> { App.i18n.get('Reset') }</a>
                 </div>
             </div>
 
@@ -82,15 +82,15 @@
 
     </div>
 
-    <div class="uk-modal">
+    <div class="uk-modal" ref="modal">
 
-        <div class="uk-modal-dialog uk-modal-dialog-large" if="{collection}">
+        <div class="uk-modal-dialog uk-modal-dialog-large">
             <a href="" class="uk-modal-close uk-close"></a>
-            <h3>{ collection.label || collection.name }</h3>
+            <h3>{ collection && (collection.label || collection.name || "") }</h3>
 
-            <div class="uk-margin">
+            <div class="uk-margin uk-flex uk-flex-middle" if="{collection}">
 
-                <div class="uk-form-icon uk-form uk-width-1-1 uk-text-muted">
+                <div class="uk-form-icon uk-form uk-flex-item-1 uk-text-muted">
 
                     <i class="uk-icon-search"></i>
                     <input class="uk-width-1-1 uk-form-large uk-form-blank" type="text" ref="txtfilter" placeholder="{ App.i18n.get('Filter items...') }" onchange="{ updatefilter }">
@@ -99,13 +99,13 @@
 
             </div>
 
-            <div class="uk-overflow-container">
+            <div class="uk-overflow-container" if="{collection}">
 
-                <div class="uk-alert" if="{ !entries.length && filter && !loading }">
+                <div class="uk-text-xlarge uk-text-center uk-text-muted uk-margin-large-bottom" if="{ !entries.length && filter && !loading }">
                     { App.i18n.get('No entries found') }.
                 </div>
 
-                <table class="uk-table uk-table-striped uk-margin-top" if="{ entries.length }">
+                <table class="uk-table uk-table-tabbed uk-table-striped" if="{ entries.length }">
                     <thead>
                         <tr>
                             <th class="uk-text-small" each="{field,idx in fields[collection.name]}">
@@ -130,8 +130,8 @@
                     </tbody>
                 </table>
 
-                <div class="uk-alert" if="{ loading }">
-                    <i class="uk-icon-spinner uk-icon-spin"></i> {App.i18n.get('Loading...')}.
+                <div class="uk-margin-large-bottom" if="{ loading }">
+                    <cp-preloader class="uk-container-center"></cp-preloader>
                 </div>
 
                 <div class="uk margin" if="{ loadmore && !loading }">
@@ -143,7 +143,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
 
@@ -200,7 +199,9 @@
             links.push(link.name);
         });
 
-        modal = UIkit.modal(App.$('.uk-modal', this.root));
+        modal = UIkit.modal(this.refs.modal, {modal:false});
+
+        modal.element.appendTo(document.body);
 
         App.request('/collections/_collections').then(function(data) {
             $this.collections = [];
@@ -226,6 +227,11 @@
         App.$(this.root).on('stop.uk.sortable', function(){
             $this.updateorder();
         });
+
+        this.on('before-unmount', function() {
+            modal.element.appendTo(this.root);
+        });
+
     });
 
     showDialog(index){
