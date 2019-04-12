@@ -60,11 +60,10 @@
         <div if="{link && link.length}">
 
             <div class="uk-panel uk-panel-card uk-panel-box">
-
-                <ul class="uk-list uk-list-space {link.length > 1 && 'uk-sortable'}" {link.length > 1 && 'data-uk-sortable'}>
+                <ul if="{link.length > 1}" class="uk-list uk-list-space uk-sortable" data-uk-sortable>
                     <li each="{l,index in link}" data-idx="{ index }">
                         <div class="uk-grid uk-grid-small uk-text-small">
-                            <div class="uk-flex-item-1 {link.length > 1 && 'uk-flex-item-sortable'}">{ l.display } ({ l.link })</div>
+                            <div class="uk-flex-item-1 uk-flex-item-sortable">{ l.display } ({ l.link })</div>
                             <div>
                                 <a target="_blank" href="{ App.base_url }/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit entry') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-link"></i></a>
                                 <a class="uk-margin-small-left uk-text-danger uk-item-link" title="{ App.i18n.get('Remove entry') }" data-uk-tooltip="pos:'bottom'" onclick="{ removeListItem }"><i class="uk-icon-trash-o"></i></a>
@@ -73,6 +72,17 @@
                     </li>
                 </ul>
 
+                <ul if="{link.length < 2}" class="uk-list uk-list-space">
+                    <li each="{l,index in link}" data-idx="{ index }">
+                        <div class="uk-grid uk-grid-small uk-text-small">
+                            <div class="uk-flex-item-1">{ l.display } ({ l.link })</div>
+                            <div>
+                                <a target="_blank" href="{ App.base_url }/collections/entry/{ l.link }/{ l._id }" title="{ App.i18n.get('Edit entry') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-link"></i></a>
+                                <a class="uk-margin-small-left uk-text-danger uk-item-link" title="{ App.i18n.get('Remove entry') }" data-uk-tooltip="pos:'bottom'" onclick="{ removeListItem }"><i class="uk-icon-trash-o"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
                 <div class="uk-panel-box-footer uk-text-small uk-padding-bottom-remove">
                     <a class="uk-text-danger" onclick="{ removeItem }" title="{ App.i18n.get('Remove all entries') }" data-uk-tooltip="pos:'bottom'"><i class="uk-icon-trash-o"></i> { App.i18n.get('Reset') }</a>
                 </div>
@@ -120,7 +130,7 @@
                     <tbody>
                         <tr each="{entry,idx in entries}">
                             <td class="uk-text-truncate" each="{field,idy in parent.fields[collection.name]}" if="{ field.name != '_modified' }">
-                                <raw content="{ App.Utils.renderValue(field.type, parent.entry[field.name]) }"></raw>
+                            <raw content="{ App.Utils.renderValue(field.type, parent.entry[field.name], field) }"></raw>
                             </td>
                             <td>{ App.Utils.dateformat( new Date( 1000 * entry._modified )) }</td>
                             <td>
