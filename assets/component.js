@@ -16,7 +16,7 @@ App.Utils.renderer.multiplecollectionlink = function(v, field) {
     links.forEach(function(link, idx) {
       if (link.display && link.link && link._id) {
         var url = App.route('/collections/entry/'+link.link+'/'+link._id);
-        items.push('<a target-"_blank" class="uk-text-small uk-button-small" href="'+url+'">'+link.display+'</a>');
+        items.push('<a target="_blank" class="uk-text-small uk-button-small" href="'+url+'">'+link.display+'</a>');
       } else {
         items.push("")
       }
