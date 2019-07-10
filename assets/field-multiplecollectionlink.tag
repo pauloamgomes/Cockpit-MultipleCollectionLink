@@ -310,21 +310,23 @@
 
         if (!this.collection.sortable) {
             options.limit = limit;
+            options.skip  = this.entries.length || 0;
         }
 
         this.loading = true;
 
-        return App.request('/collections/_find', {collection:this.collection.name, options: options}).then(function(data){
-            this.entries = data;
+        return App.request('/collections/find', {collection:this.collection.name, options:options}).then(function(data){
+
+            this.entries = this.entries.concat(data.entries);
 
             this.ready    = true;
-            this.loadmore = data.length && data.length == limit;
+            this.loadmore = data.entries.length && data.entries.length == limit;
 
             this.loading = false;
 
             this.update();
 
-        }.bind(this))
+        }.bind(this));
     }
 
     updatefilter(e) {
