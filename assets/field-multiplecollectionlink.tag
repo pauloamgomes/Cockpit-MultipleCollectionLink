@@ -161,6 +161,7 @@
         this.error = this.collections ? false:true;
 
         this.loadmore   = false;
+        this.refresh    = true;
         this.entries    = [];
         this.fieldsidx  = {};
         this.fields     = {};
@@ -252,6 +253,7 @@
         }
 
         this.collection = this.collections[index];
+        this.refresh = true;
 
         modal.show();
         this.load();
@@ -313,16 +315,21 @@
             options.skip  = this.entries.length || 0;
         }
 
+        if (this.refresh) {
+            options.skip = 0;
+        }
+
         this.loading = true;
 
         return App.request('/collections/find', {collection:this.collection.name, options:options}).then(function(data){
 
-            this.entries = this.entries.concat(data.entries);
+            this.entries = this.refresh ? data.entries : this.entries.concat(data.entries);
 
+            this.refresh  = false;
             this.ready    = true;
             this.loadmore = data.entries.length && data.entries.length == limit;
 
-            this.loading = false;
+            this.loading  = false;
 
             this.update();
 
