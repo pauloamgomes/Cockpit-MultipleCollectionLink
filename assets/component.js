@@ -1,5 +1,4 @@
 App.Utils.renderer.multiplecollectionlink = function(v, field) {
-  console.log(field.options);
   var viewMode = field.options && field.options.viewMode || "tooltip";
 
   var links = Array.isArray(v) ? v : [v];
